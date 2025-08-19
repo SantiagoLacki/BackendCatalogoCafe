@@ -71,4 +71,18 @@ export const borrarProductosPorId = async (req,res) => {
   }
 }
 
-// Aagregar funcion para editar productos
+export const editarProductosPorId = async (req,res) => {
+  try {
+    // 1- Buescar el producto por el id y luego borrarlo
+    const productoModificado = await Producto.findByIdAndUpdate(req.params.id, req.body)
+    if (!productoModificado) {
+      return res.status(404).json({mensaje: 'Producto no encontrado.'});
+    }
+    // 2- responder al front
+    res.status(200).json({mensaje: 'Producto actualizado exitosamente.'})
+  }
+  catch (error) {
+    console.error(error)
+    res.status(500).json({mensaje: 'Error al editar el producto.'})
+  }
+}
